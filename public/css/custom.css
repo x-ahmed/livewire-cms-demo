@@ -1,0 +1,11 @@
+/* start trix editor customizations */
+.body-content {
+    max-height: 118px !important;
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+}
+
+.trix-button--icon-redo {
+    display: none !important;
+}
+/* end trix editor customizations */
