@@ -13,10 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::group(
+    attributes: [
+        'middleware' => [
+            'auth:sanctum',
+            'verified',
+        ],
+    ],
+    routes: function () {
+        Route::view(uri: '/pages', view: 'admin.pages')->name(name: 'pages');
+        Route::view(uri: '/', view: 'dashboard')->name(name: 'dashboard');
+    }
+);
