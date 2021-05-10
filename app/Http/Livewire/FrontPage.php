@@ -10,6 +10,37 @@ class FrontPage extends Component
     public Page $page;
 
     /**
+     * component state variables.
+     *
+     * @var array
+     */
+    public array $state = [
+        'data' => [
+            'title'    => null,
+            'slug'     => null,
+            'body'     => null,
+            'id'       => null,
+        ],
+        'ui'   => [
+            'isModalUp' => false,
+        ],
+    ];
+
+    /**
+     * map mounted props to component state
+     *
+     * @param Page $page
+     * @return void
+     */
+    public function mapPropsToState(Page $page): void
+    {
+        $this->state['data']['title'] = $page->title;
+        $this->state['data']['slug']  = $page->slug;
+        $this->state['data']['body']  = $page->body;
+        $this->state['data']['id']    = $page->id;
+    }
+
+    /**
      * livewire mount method
      *
      * @param Page $page
@@ -18,6 +49,7 @@ class FrontPage extends Component
     public function mount(Page $page): void
     {
         $this->page = $page;
+        $this->mapPropsToState($page);
     }
 
     /**

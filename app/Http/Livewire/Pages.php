@@ -26,6 +26,8 @@ class Pages extends Component
             'slug'     => null,
             'body'     => null,
             'id'       => null,
+            'isSetToDefaultHomePage'     => false,
+            'isSetToDefaultNotFoundPage' => false,
         ],
         'ui'   => [
             'isModalUp' => false,
@@ -77,6 +79,26 @@ class Pages extends Component
     }
 
     /**
+     * on isSetToDefaultHomePage variable is updated.
+     *
+     * @return void
+     */
+    public function updatedStateDataIsSetToDefaultHomePage()
+    {
+        $this->isSetToDefaultNotFoundPage = false;
+    }
+
+    /**
+     * on isSetToDefaultNotFoundPage variable is updated.
+     *
+     * @return void
+     */
+    public function updatedStateDataIsSetToDefaultNotFoundPage()
+    {
+        $this->isSetToDefaultHomePage = false;
+    }
+
+    /**
      * reset component to its default state.
      *
      * @return void
@@ -85,8 +107,7 @@ class Pages extends Component
     {
         \array_walk_recursive(
             array: $this->state,
-            callback: fn (&$val, $key, string $arg) => $val = $key === $arg ? false : null,
-            arg: 'isModalUp'
+            callback: fn (&$val) => $val = \gettype($val) === "boolean" ? false : null
         );
     }
 
@@ -136,6 +157,14 @@ class Pages extends Component
             'state.data.body'  => [
                 'required',
                 'string',
+            ],
+            'state.data.isSetToDefaultHomePage'     => [
+                'nullable',
+                Rule::in([true, false]),
+            ],
+            'state.data.isSetToDefaultNotFoundPage' => [
+                'nullable',
+                Rule::in([true, false]),
             ],
         ];
     }
@@ -205,7 +234,15 @@ class Pages extends Component
     private function getValidData(): array
     {
         $valid = $this->validate();
-        return $valid['state']['data'];
+        $data = collect($valid['state']['data']);
+
+        return [
+            "title"                => $data['title'],
+            "slug"                 => $data['slug'],
+            "body"                 => $data['body'],
+            "is_default_home"      => $data['isSetToDefaultHomePage'],
+            "is_default_not_found" => $data['isSetToDefaultNotFoundPage'],
+        ];
     }
 
     /**
@@ -234,10 +271,14 @@ class Pages extends Component
     private function parseModelDataIntoState(int $id): void
     {
         $page = Page::findOrFail($id);
-        $this->state['data']['title']    = $page->title;
-        $this->state['data']['slug']     = $page->slug;
-        $this->state['data']['body']     = $page->body;
-        $this->state['data']['id']       = $page->id;
+
+        $this->state['data']['title'] = $page->title;
+        $this->state['data']['slug']  = $page->slug;
+        $this->state['data']['body']  = $page->body;
+        $this->state['data']['id']    = $page->id;
+
+        $this->state['data']['isSetToDefaultNotFoundPage'] = $page->is_default_not_found;
+        $this->state['data']['isSetToDefaultHomePage']     = $page->is_default_home;
     }
 
     /**

@@ -30,7 +30,21 @@
                         <tbody class="min-w-full bg-white divide-y divide-gray-200">
                             @forelse ($pages as $page)
                                 <tr>
-                                    <td class="px-6 py-4 text-sm whitespace-nowrap">{{ $page->title }}</td>
+                                    <td class="px-6 py-4 text-sm whitespace-nowrap">
+                                        {{ $page->title }}
+                                        <div>
+                                            @if ($page->is_default_home)
+                                                <span class="text-xs font-bold text-green-400">
+                                                    [Default Home Page]
+                                                </span>
+                                            @endif
+                                            @if ($page->is_default_not_found)
+                                                <span class="text-xs font-bold text-red-400">
+                                                    [Default 404 Page]
+                                                </span>
+                                            @endif
+                                        </div>
+                                    </td>
                                     <td class="px-6 py-4 text-sm whitespace-nowrap">
                                         {{-- <a href="{{ URL::to("/{$page->slug}") }}" --}}
                                         <a href="{{ route('front-page', $page) }}"
@@ -43,7 +57,7 @@
                                         {!! Str::limit($page->body, 40, '...') !!}
                                     </td>
                                     <td class="flex items-center justify-center px-3 py-4 text-sm text-right">
-                                        <x-jet-button wire:click="edit({{ (int)$page->id }})"
+                                        <x-jet-button wire:click="edit({{ (int) $page->id }})"
                                             class="mr-1">
                                             {{ __('Edit') }}
                                         </x-jet-button>
@@ -120,6 +134,28 @@
                 <x-jet-input-error for="state.data.slug"
                     class="mt-2" />
             </div>
+
+            <div class="mt-4">
+                <label for="isSetToDefaultHomePage">
+                    <input type="checkbox"
+                        wire:model="state.data.isSetToDefaultHomePage"
+                        {{-- value="{{ $state['data']['isSetToDefaultHomePage'] }}" --}}
+                        class="form-checkbox"
+                        id="isSetToDefaultHomePage" />
+                    <span class="ml-2 text-sm text-gray-600">Set as the default home page</span>
+                </label>
+            </div>
+            <div class="mt-4">
+                <label for="isSetToDefaultNotFoundPage">
+                    <input type="checkbox"
+                        wire:model="state.data.isSetToDefaultNotFoundPage"
+                        {{-- value="{{ $state['data']['isSetToDefaultNotFoundPage'] }}" --}}
+                        class="form-checkbox"
+                        id="isSetToDefaultNotFoundPage" />
+                    <span class="ml-2 text-sm text-red-600">Set as the default 404 page</span>
+                </label>
+            </div>
+
             <div class="mt-4">
                 <x-jet-label for="body"
                     value="{{ __('Content') }}" />
