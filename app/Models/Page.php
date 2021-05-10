@@ -38,6 +38,16 @@ class Page extends Model
     public function getLinkAttribute(): string
     {
         $url = config('app.url');
-        return "{$url}/pages/{$this->slug}";
+        return "{$url}/{$this->slug}";
+    }
+
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }
