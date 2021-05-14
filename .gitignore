@@ -9,6 +9,7 @@
 docker-compose.override.yml
 Homestead.json
 Homestead.yaml
+Homestead-new.yaml
 npm-debug.log
 yarn-error.log
 
@@ -19,3 +20,5 @@ todo
 TODO
 .TODO
 /.TODO
+
+.vagrant/
