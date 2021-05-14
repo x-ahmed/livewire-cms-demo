@@ -85,7 +85,7 @@ class Pages extends Component
      */
     public function updatedStateDataIsSetToDefaultHomePage()
     {
-        $this->isSetToDefaultNotFoundPage = false;
+        $this->state['data']['isSetToDefaultNotFoundPage'] = false;
     }
 
     /**
@@ -95,7 +95,7 @@ class Pages extends Component
      */
     public function updatedStateDataIsSetToDefaultNotFoundPage()
     {
-        $this->isSetToDefaultHomePage = false;
+        $this->state['data']['isSetToDefaultHomePage'] = false;
     }
 
     /**
@@ -312,7 +312,7 @@ class Pages extends Component
     {
         $this->state['data']['id'] = $id;
         $this->confirm(
-            'Are you sure deleting this post? 👋',
+            'Are you sure deleting this page? 👋',
             [
                 'toast'             => false,
                 'position'          => 'center',
@@ -337,7 +337,7 @@ class Pages extends Component
 
         $this->alert(
             'success',
-            'Post deleted successfully 👍'
+            'page deleted successfully 👍'
         );
     }
 
