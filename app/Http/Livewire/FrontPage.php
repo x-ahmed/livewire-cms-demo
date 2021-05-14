@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class FrontPage extends Component
 {
-    public Page $page;
+    // public Page $page;
 
     /**
      * component state variables.
@@ -16,10 +16,10 @@ class FrontPage extends Component
      */
     public array $state = [
         'data' => [
-            'title'    => null,
-            'slug'     => null,
-            'body'     => null,
-            'id'       => null,
+            'title'   => null,
+            'slug'    => null,
+            'content' => null,
+            'id'      => null,
         ],
         'ui'   => [
             'isModalUp' => false,
@@ -34,10 +34,11 @@ class FrontPage extends Component
      */
     public function mapPropsToState(Page $page): void
     {
-        $this->state['data']['title'] = $page->title;
-        $this->state['data']['slug']  = $page->slug;
-        $this->state['data']['body']  = $page->body;
-        $this->state['data']['id']    = $page->id;
+        // $this->page = $page;
+        $this->state['data']['title']   = $page->title;
+        $this->state['data']['slug']    = $page->slug;
+        $this->state['data']['content'] = $page->body;
+        $this->state['data']['id']      = $page->id;
     }
 
     /**
@@ -48,7 +49,6 @@ class FrontPage extends Component
      */
     public function mount(Page $page): void
     {
-        $this->page = $page;
         $this->mapPropsToState($page);
     }
 

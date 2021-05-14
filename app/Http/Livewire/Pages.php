@@ -234,7 +234,7 @@ class Pages extends Component
     private function getValidData(): array
     {
         $valid = $this->validate();
-        $data = collect($valid['state']['data']);
+        $data = $valid['state']['data'];
 
         return [
             "title"                => $data['title'],
@@ -246,6 +246,19 @@ class Pages extends Component
     }
 
     /**
+     * reset the given attribute of the database pages.
+     *
+     * @param  mixed $attribute
+     * @return void
+     */
+    private function resetPagesAttribute(string $attribute): void
+    {
+        Page::where($attribute, true)->update([
+            $attribute => false
+        ]);
+    }
+
+    /**
      * handle UI effects and model page instance.
      *
      * @return void
@@ -254,6 +267,9 @@ class Pages extends Component
     {
         $data = $this->getValidData();
         $currentState = $this->state;
+
+        if($data['is_default_home']) $this->resetPagesAttribute('is_default_home');
+        if($data['is_default_not_found']) $this->resetPagesAttribute('is_default_not_found');
 
         (!$this->state['data']['id'])
             ? $this->store($data, $currentState)

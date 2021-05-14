@@ -2,8 +2,10 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use App\Models\Page;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -34,6 +36,16 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
+        $this->renderable(function (Throwable $e, $request) {
+            if ($e instanceof NotFoundHttpException) {
+                $default404Page = Page::whereIsDefaultNotFound(true)->first()->slug;
+                return redirect(route('front-page', $default404Page));
+            }
+
+            report($e);
+            return false;
+        });
+
         $this->reportable(function (Throwable $e) {
             //
         });
