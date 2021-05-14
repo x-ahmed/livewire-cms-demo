@@ -43,7 +43,6 @@ class Handler extends ExceptionHandler
             }
 
             report($e);
-            return false;
         });
 
         $this->reportable(function (Throwable $e) {

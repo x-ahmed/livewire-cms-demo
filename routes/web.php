@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Page;
 use App\Http\Livewire\FrontPage;
 use Illuminate\Support\Facades\Route;
 
@@ -27,9 +26,5 @@ Route::group(
         Route::view(uri: '/dashboard', view: 'dashboard')->name(name: 'dashboard');
     }
 );
-Route::get(uri: '/{page}', action: FrontPage::class )->name('front-page');
-Route::get(uri: '/', action: function(){
-    $defaultHomePage = Page::whereIsDefaultHome(true)->first()->slug;
-    return redirect(route('front-page', $defaultHomePage));
-});
+Route::get(uri: '/{page?}', action: FrontPage::class )->name('front-page');
 // Route::view(uri: '/', view: 'welcome');

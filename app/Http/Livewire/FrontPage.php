@@ -35,6 +35,7 @@ class FrontPage extends Component
     public function mapPropsToState(Page $page): void
     {
         // $this->page = $page;
+        $page->id ?? $page = Page::whereIsDefaultHome(true)->first();
         $this->state['data']['title']   = $page->title;
         $this->state['data']['slug']    = $page->slug;
         $this->state['data']['content'] = $page->body;

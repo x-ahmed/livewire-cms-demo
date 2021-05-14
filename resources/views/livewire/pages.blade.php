@@ -48,7 +48,6 @@
                                     <td class="px-6 py-4 text-sm whitespace-nowrap">
                                         {{-- <a href="{{ URL::to("/{$page->slug}") }}" --}}
                                         <a href="{{ route('front-page', $page) }}"
-                                            target="_blank"
                                             class="text-indigo-600 hover:text-indigo-900">
                                             {{ $page->link }}
                                         </a>

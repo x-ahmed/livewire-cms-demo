@@ -24,7 +24,7 @@
         <x-jet-banner />
 
         <div class="min-h-screen bg-gray-100">
-            
+
             <!-- Page Content -->
             <main>
                 {{ $slot }}
@@ -34,6 +34,12 @@
         @stack('modals')
 
         @livewireScripts
+        <script
+            src="{{ asset('js/turbolinks.js') }}"
+            data-turbolinks-eval="false"
+            data-turbo-eval="false"></script>
+        <script src="{{ asset('js/app.js') }}"></script>
+
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
         <x-livewire-alert::scripts />
     </body>
