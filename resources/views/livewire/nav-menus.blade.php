@@ -1,11 +1,11 @@
 <div class="p-6">
     <div class="flex items-center justify-end px-4 py-3 text-right sm:px-6">
         <x-jet-button wire:click="create">
-            {{ __('Create Page') }}
+            {{ __('Create Menu') }}
         </x-jet-button>
     </div>
 
-    <!--  Pages Data Table -->
+    <!--  Navigation Menus Data Table -->
     <div class="flex flex-col">
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -15,52 +15,50 @@
                             <tr>
                                 <th
                                     class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase bg-gray-50">
-                                    Title</th>
+                                    Type
+                                </th>
                                 <th
                                     class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase bg-gray-50">
-                                    Link</th>
+                                    Sequence
+                                </th>
                                 <th
                                     class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase bg-gray-50">
-                                    Content</th>
+                                    label
+                                </th>
                                 <th
                                     class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase bg-gray-50">
-                                    Actions</th>
+                                    URL
+                                </th>
+                                <th
+                                    class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase bg-gray-50">
+                                    Actions
+                                </th>
                             </tr>
                         </thead>
                         <tbody class="min-w-full bg-white divide-y divide-gray-200">
-                            @forelse ($pages as $page)
+                            @forelse ($navMenus as $navMenu)
                                 <tr>
                                     <td class="px-6 py-4 text-sm whitespace-nowrap">
-                                        {{ \Illuminate\Support\Str::limit($page->title, 40, '...') }}
-                                        <div>
-                                            @if ($page->is_default_home)
-                                                <span class="text-xs font-bold text-green-400">
-                                                    [Default Home Page]
-                                                </span>
-                                            @endif
-                                            @if ($page->is_default_not_found)
-                                                <span class="text-xs font-bold text-red-400">
-                                                    [Default 404 Page]
-                                                </span>
-                                            @endif
-                                        </div>
+                                        {{ $navMenu->type_full_string }}
                                     </td>
                                     <td class="px-6 py-4 text-sm whitespace-nowrap">
-                                        {{-- <a href="{{ URL::to("/{$page->slug}") }}" --}}
-                                        <a href="{{ route('front-page', $page) }}"
-                                            class="text-indigo-600 hover:text-indigo-900">
-                                            {{  \Illuminate\Support\Str::limit($page->link, 40, '...')  }}
+                                        {{ $navMenu->sequence }}
+                                    </td>
+                                    <td class="px-6 py-4 text-sm whitespace-nowrap">
+                                        {{ \Illuminate\Support\Str::limit($navMenu->label, 40, '...') }}
+                                    </td>
+                                    <td class="px-6 py-4 text-sm whitespace-nowrap">
+                                        <a class="text-indigo-600 hover:text-indigo-900"
+                                            href="{{ url($navMenu->slug) }}">
+                                            {{ \Illuminate\Support\Str::limit($navMenu->link, 40, '...') }}
                                         </a>
                                     </td>
-                                    <td class="px-6 py-4 text-sm whitespace-nowrap">
-                                        {!! \Illuminate\Support\Str::limit($page->body, 40, '...') !!}
-                                    </td>
                                     <td class="flex items-center justify-center px-3 py-4 text-sm text-right">
-                                        <x-jet-button wire:click="edit({{ (int) $page->id }})"
+                                        <x-jet-button wire:click="edit({{ (int) $navMenu->id }})"
                                             class="mr-1">
                                             {{ __('Edit') }}
                                         </x-jet-button>
-                                        <x-jet-danger-button wire:click="destroy({{ $page->id }})"
+                                        <x-jet-danger-button wire:click="destroy({{ $navMenu->id }})"
                                             class="ml-1">
                                             {{ __('Delete') }}
                                         </x-jet-danger-button>
@@ -70,7 +68,7 @@
                                 <tr>
                                     <td colspan="4"
                                         class="px-6 py-4 text-2xl font-extrabold text-center">
-                                        👋 No pages found
+                                        👋 No menus found
                                     </td>
                                 </tr>
                             @endforelse
@@ -80,12 +78,11 @@
             </div>
         </div>
     </div>
-    @if ($pages->count())
+    @if ($navMenus->count())
         <div class="px-3 pt-6">
-            {!! $pages->appends(request()->input())->links() !!}
+            {!! $navMenus->appends(request()->input())->links() !!}
         </div>
     @endif
-
 
     <!--  Modal Form -->
     <x-jet-dialog-modal wire:model="state.ui.isModalUp"
@@ -93,23 +90,24 @@
         <div class="flex justify-center">
             <x-slot name="title">
                 @if (!$state['data']['id'])
-                    {{ __('New Page') }}
+                    {{ __('New Menu') }}
                 @else
-                    {{ $state['data']['title'] }}
+                    {{ $state['data']['label'] }}
                 @endif
             </x-slot>
         </div>
 
         <x-slot name="content">
             <div class="mt-4">
-                <x-jet-label for="title"
-                    value="{{ __('Title') }}" />
-                <x-jet-input id="title"
+                <x-jet-label for="label"
+                    value="{{ __('Label') }}" />
+                <x-jet-input id="label"
                     class="block w-full mt-1"
+                    placeholder="Menu Name"
                     type="text"
-                    wire:model.debounce.200ms="state.data.title"
+                    wire:model.debounce.200ms="state.data.label"
                     required />
-                <x-jet-input-error for="state.data.title"
+                <x-jet-input-error for="state.data.label"
                     class="mt-2" />
             </div>
             <div class="mt-4">
@@ -125,52 +123,47 @@
                     <input id="slug"
                         class="flex-1 block w-full border-gray-300 rounded-none focus:ring-indigo-500 focus:border-indigo-500 rounded-r-md sm:text-sm"
                         type="text"
-                        wire:model='state.data.slug'
+                        wire:model.debounce.500ms='state.data.slug'
                         required
                         disabled
-                        placeholder="Page Slug" />
+                        placeholder="Menu Slug" />
                 </div>
                 <x-jet-input-error for="state.data.slug"
                     class="mt-2" />
             </div>
-
             <div class="mt-4">
-                <label for="isSetToDefaultHomePage">
-                    <input type="checkbox"
-                        wire:model="state.data.isSetToDefaultHomePage"
-                        {{-- value="{{ $state['data']['isSetToDefaultHomePage'] }}" --}}
-                        class="form-checkbox"
-                        id="isSetToDefaultHomePage" />
-                    <span class="ml-2 text-sm text-gray-600">Set as the default home page</span>
-                </label>
+                <x-jet-label for="sequence"
+                    value="{{ __('sequence') }}" />
+                <x-jet-input id="sequence"
+                    class="block w-full mt-1"
+                    placeholder="Menu Sequence Number"
+                    type="number"
+                    min="1"
+                    wire:model.debounce.200ms="state.data.sequence"
+                    required />
+                <x-jet-input-error for="state.data.sequence"
+                    class="mt-2" />
             </div>
             <div class="mt-4">
-                <label for="isSetToDefaultNotFoundPage">
-                    <input type="checkbox"
-                        wire:model="state.data.isSetToDefaultNotFoundPage"
-                        {{-- value="{{ $state['data']['isSetToDefaultNotFoundPage'] }}" --}}
-                        class="form-checkbox"
-                        id="isSetToDefaultNotFoundPage" />
-                    <span class="ml-2 text-sm text-red-600">Set as the default 404 page</span>
-                </label>
-            </div>
-
-            <div class="mt-4">
-                <x-jet-label for="body"
-                    value="{{ __('Content') }}" />
-                <div class="rounded-md shadow-sm">
-                    <div class="mt-1 bg-white">
-                        <div class="body-content"
-                            wire:ignore>
-                            <trix-editor class="trix-content"
-                                x-ref="trix"
-                                wire:model.debounce.100000ms="state.data.body"
-                                wire:key="trix-content-unique-key">
-                            </trix-editor>
-                        </div>
-                    </div>
-                </div>
-                <x-jet-input-error for="state.data.body"
+                <x-jet-label for="type"
+                    value="{{ __('Type') }}" />
+                <select
+                    class="block w-full px-4 py-3 mt-1 leading-tight text-gray-700 bg-gray-100 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:bg-white focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    wire:model="state.data.type"
+                    wire:key="{{ $state['data']['type'] }}">
+                    <option value="">
+                        Select Menu Type
+                    </option>
+                    <option value="side"
+                        selected={{ $state['data']['type'] === 'side' ? 'selected' : '' }}>
+                        Side Navigation Bar
+                    </option>
+                    <option value="top"
+                        selected={{ $state['data']['type'] === 'top' ? 'selected' : '' }}>
+                        Top Navigation Bar
+                    </option>
+                </select>
+                <x-jet-input-error for="state.data.type"
                     class="mt-2" />
             </div>
 
@@ -186,9 +179,9 @@
                 wire:click="save"
                 wire:loading.attr="disabled">
                 @if (!$state['data']['id'])
-                    {{ __('Save Page') }}
+                    {{ __('Save Menu') }}
                 @else
-                    {{ __('Update Page') }}
+                    {{ __('Update Menu') }}
                 @endif
             </x-jet-button>
         </x-slot>

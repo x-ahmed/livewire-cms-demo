@@ -3,11 +3,14 @@
 namespace App\Http\Livewire;
 
 use App\Models\Page;
+use App\Models\NavMenu;
 use Livewire\Component;
+use Illuminate\Support\Facades\DB;
 
 class FrontPage extends Component
 {
-    // public Page $page;
+    public $sidebarLinks;
+    public $navbarLinks;
 
     /**
      * component state variables.
@@ -51,6 +54,36 @@ class FrontPage extends Component
     public function mount(Page $page): void
     {
         $this->mapPropsToState($page);
+        $this->sidebarLinks();
+        $this->navbarLinks();
+    }
+
+    /**
+     * get sidebar links.
+     *
+     * @return void
+     */
+    private function sidebarLinks(): void
+    {
+        $this->sidebarLinks = DB::table('nav_menus')
+            ->whereType('side')
+            ->orderBy('sequence')
+            ->orderBy('created_at')
+            ->get();
+    }
+
+    /**
+     * get navbar links.
+     *
+     * @return void
+     */
+    private function navbarLinks(): void
+    {
+        $this->navbarLinks = DB::table('nav_menus')
+            ->whereType('top')
+            ->orderBy('sequence')
+            ->orderBy('created_at')
+            ->get();
     }
 
     /**

@@ -22,9 +22,10 @@ Route::group(
         ],
     ],
     routes: function () {
+        Route::view(uri: '/nav-menus', view: 'admin.nav-menus')->name(name: 'nav-menus');
         Route::view(uri: '/pages', view: 'admin.pages')->name(name: 'pages');
         Route::view(uri: '/dashboard', view: 'dashboard')->name(name: 'dashboard');
     }
 );
-Route::get(uri: '/{page?}', action: FrontPage::class )->name('front-page');
+Route::get(uri: '/{page?}', action: FrontPage::class)->name('front-page');
 // Route::view(uri: '/', view: 'welcome');
