@@ -19,6 +19,7 @@ Route::group(
         'middleware' => [
             'auth:sanctum',
             'verified',
+            'access.role',
         ],
     ],
     routes: function () {
