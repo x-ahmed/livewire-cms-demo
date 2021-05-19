@@ -58,4 +58,24 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    /**
+     * The number of models to return for pagination.
+     *
+     * @var int
+     */
+    protected $perPage = 5;
+
+    /**
+     * The list of user roles.
+     *
+     * @return array
+     */
+    public static function rolesList(): array
+    {
+        return [
+            'admin',
+            'user',
+        ];
+    }
 }

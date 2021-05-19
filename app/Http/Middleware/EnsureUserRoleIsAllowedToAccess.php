@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\UserPermission;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,7 +23,11 @@ class EnsureUserRoleIsAllowedToAccess
         $currentRoute = Route::currentRouteName();
 
         try {
-            if (!\in_array(needle: $currentRoute, haystack: $this->userAccessRole()[$userRole])) {
+            if (
+                !UserPermission::isRoleHaveRightToAccess(userRole: $userRole, routeName: $currentRoute)
+                and
+                !\in_array(needle: $currentRoute, haystack: $this->defaultUserAccessRole()[$userRole])
+            ) {
                 abort(
                     Response::HTTP_FORBIDDEN,
                     'Unauthorized action',
@@ -38,18 +43,14 @@ class EnsureUserRoleIsAllowedToAccess
     }
 
     /**
-     * user's accessible resources.
+     * admin default access role.
      *
      * @return array
      */
-    private function userAccessRole(): array
+    private function defaultUserAccessRole(): array
     {
         return [
-            'user' => ['dashboard'],
             'admin' => [
-                'pages',
-                'nav-menus',
-                'users',
                 'user-permissions',
             ],
         ];
