@@ -23,6 +23,8 @@ Route::group(
         ],
     ],
     routes: function () {
+        Route::view(uri: '/user-permissions', view: 'admin.user-permissions')->name(name: 'user-permissions');
+        Route::view(uri: '/users', view: 'admin.users')->name(name: 'users');
         Route::view(uri: '/nav-menus', view: 'admin.nav-menus')->name(name: 'nav-menus');
         Route::view(uri: '/pages', view: 'admin.pages')->name(name: 'pages');
         Route::view(uri: '/dashboard', view: 'dashboard')->name(name: 'dashboard');

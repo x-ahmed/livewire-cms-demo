@@ -25,6 +25,14 @@
                         :active="request()->routeIs('nav-menus')">
                         {{ __('Navigation Menus') }}
                     </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('users') }}"
+                        :active="request()->routeIs('users')">
+                        {{ __('Users') }}
+                    </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('user-permissions') }}"
+                        :active="request()->routeIs('user-permissions')">
+                        {{ __('User Permissions') }}
+                    </x-jet-nav-link>
                 </div>
             </div>
 
@@ -193,6 +201,14 @@
             <x-jet-responsive-nav-link href="{{ route('nav-menus') }}"
                 :active="request()->routeIs('nav-menus')">
                 {{ __('Navigation Menus') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="{{ route('users') }}"
+                :active="request()->routeIs('users')">
+                {{ __('Users') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="{{ route('user-permissions') }}"
+                :active="request()->routeIs('user-permissions')">
+                {{ __('User Permissions') }}
             </x-jet-responsive-nav-link>
         </div>
 
