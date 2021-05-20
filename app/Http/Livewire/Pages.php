@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use Debugbar;
 use App\Models\Page;
 use Livewire\Component;
 use Illuminate\Support\Str;
@@ -33,6 +32,20 @@ class Pages extends Component
             'isModalUp' => false,
         ],
     ];
+
+    /**
+     * Dispatch livewire browser notification event.
+     * https://laravel-livewire.com/docs/2.x/events#browser
+     *
+     * @return void
+     */
+    public function dispatchWebSocketNotificationEvent(): void
+    {
+        $this->dispatchBrowserEvent('event-notification', [
+            'eventName'    => 'Event Sample',
+            'eventMessage' => 'Message of the event sample',
+        ]);
+    }
 
     /**
      * livewire mount function.

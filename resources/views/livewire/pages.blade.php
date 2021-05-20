@@ -1,6 +1,12 @@
 <div class="p-6">
     <div class="flex items-center justify-end px-4 py-3 text-right sm:px-6">
-        <x-jet-button wire:click="create">
+        {{-- button to dispatch an event to emit event listener to send a message to websocket notification server --}}
+        <x-jet-button class="mr-1"
+            wire:click="dispatchWebSocketNotificationEvent">
+            {{ __('Dispatch Notification Event') }}
+        </x-jet-button>
+        <x-jet-button ml-1
+            wire:click="create">
             {{ __('Create Page') }}
         </x-jet-button>
     </div>
@@ -49,7 +55,7 @@
                                         {{-- <a href="{{ URL::to("/{$page->slug}") }}" --}}
                                         <a href="{{ route('front-page', $page) }}"
                                             class="text-indigo-600 hover:text-indigo-900">
-                                            {{  \Illuminate\Support\Str::limit($page->link, 40, '...')  }}
+                                            {{ \Illuminate\Support\Str::limit($page->link, 40, '...') }}
                                         </a>
                                     </td>
                                     <td class="px-6 py-4 text-sm whitespace-nowrap">

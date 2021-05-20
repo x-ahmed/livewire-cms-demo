@@ -1,0 +1,18 @@
+{
+	"name": "websockets",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "nodemon notificationServer.js",
+		"notificationServer": "nodemon notificationServer.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"html-entities": "^2.3.2",
+		"websocket": "^1.0.34"
+	}
+}
